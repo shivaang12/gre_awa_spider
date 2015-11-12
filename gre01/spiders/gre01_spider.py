@@ -1,0 +1,19 @@
+from scrapy.spiders import Spider
+from scrapy.selector import HtmlXPathSelector
+
+from gre01.items import Gre01Item
+
+endd = raw_input("ENTER END NUMBER : ")
+
+class gre01(Spider):
+    name = "gre"
+    allowed_domain=["http://www.testpreppractice.net"]
+    start_urls=["http://www.testpreppractice.net/GRE/awa-samples/gre-argument-essay-"+endd+".html"]
+
+    def parse(self, response):
+        res = response.xpath('//div[@id="content"]/p/text()').extract()
+
+        for ress in range(0,25):
+            ite = Gre01Item()
+            ite['dis'] = res[ress]
+            yield ite
